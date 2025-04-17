@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 
 const schoolSchema = new mongoose.Schema(
   {
-    // studentId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "student",
-    //   required: true,
-    // },
+   
 
     name:{type:String,required:true},
     isDeleted:{type:Boolean,default:false}
