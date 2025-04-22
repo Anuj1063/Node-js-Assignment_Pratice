@@ -11,7 +11,10 @@ class CategoryController {
           message: "name feild Required ",
         });
       }
-      let isCategoryExists = await categoryModel.findOne({ name ,isDeleted:false});
+      let isCategoryExists = await categoryModel.findOne({
+        name,
+        isDeleted: false,
+      });
       if (isCategoryExists) {
         return res.status(409).json({
           success: false,
@@ -24,7 +27,7 @@ class CategoryController {
       });
 
       if (category) {
-        return res.status(201 ).json({
+        return res.status(201).json({
           success: true,
           message: "category Created Sucessfully",
           category,
@@ -121,8 +124,8 @@ class CategoryController {
         {
           $project: {
             categoryName: "$name",
-            totalSubcategory:{
-                $size:"$subCategories"
+            totalSubcategory: {
+              $size: "$subCategories",
             },
             subcategoryDetails: {
               $map: {
@@ -130,16 +133,15 @@ class CategoryController {
                 as: "sub",
                 in: {
                   name: "$$sub.name",
-                  totalGrandChild:{
-                      $size:"$$sub.grandChildCategories"
+                  totalGrandChild: {
+                    $size: "$$sub.grandChildCategories",
                   },
-                
+
                   grandchildDetails: {
                     $map: {
                       input: "$$sub.grandChildCategories",
                       as: "grand",
                       in: {
-        
                         name: "$$grand.name",
                       },
                     },
@@ -149,7 +151,6 @@ class CategoryController {
             },
           },
         },
-       
       ]);
       if (category) {
         return res.status(200).json({
